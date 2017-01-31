@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start" : "node index.js"
+  },
   "dependencies": {
     "botkit": "^0.4.9"
   }
