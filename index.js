@@ -2,7 +2,7 @@ var Botkit = require('botkit');
 // A non comitted required config file with the apiToken for security and shit
 var config = require('./config');
 var players = [];
-var _bot;
+
 var controller = Botkit.slackbot({
     debug: false
     //include "log: false" to disable logging
@@ -19,8 +19,8 @@ controller.hears('hello', ['direct_message', 'direct_mention', 'mention'], funct
     bot.reply(message, 'Hello yourself.');
 });
 
-controller.hears('roulette', ['direct_message'], function (bot, message) {
-    _bot = bot.startConversation(message, askPlayers);
+controller.hears('roulette', ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
+    bot.startConversation(message, askPlayers);
 });
 
 var askPlayers = function (err, convo) {
@@ -52,13 +52,7 @@ var updatePlayers = function (response, convo) {
 };
 
 var playRoulette = function (response, convo) {
-    var index = Math.floor(Math.random() * 3);
+    var index = Math.floor(Math.random() * players.length);
     console.log('index: ', index);
     convo.say(`The loser is ${players[index]}!`);
-    // _bot.startPrivateConversation(message, notifyLoser);
 };
-
-var notifyLoser = function (err, convo) {
-    convo.say('Hahaa, you\'re the loser');
-};
-
